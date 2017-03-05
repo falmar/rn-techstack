@@ -1,7 +1,9 @@
+import data from '../dummy/libraries.json'
+
 const initialState = {
   hydrated: false,
   selected: 0,
-  data: []
+  data: data
 }
 
 export default (state = initialState, action) => {
