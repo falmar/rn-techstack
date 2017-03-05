@@ -5,22 +5,32 @@ import {connect} from 'react-redux'
 import ListItem from './ListItem'
 
 class LibraryList extends Component {
-  componentWillMount () {
+  constructor (props) {
+    super(props)
+
     const dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
     })
 
-    this.dataSource = dataSource.cloneWithRows(this.props.data)
+    this.state = {
+      dataSource: dataSource.cloneWithRows(props.data)
+    }
   }
 
-  renderRow (data) {
-    return <ListItem library={data} />
+  componentWillMount () {
+
+  }
+
+  renderRow (library) {
+    return (
+      <ListItem library={library} />
+    )
   }
 
   render () {
     return (
       <ListView
-        dataSource={this.dataSource}
+        dataSource={this.state.dataSource}
         renderRow={this.renderRow}
       />
     )

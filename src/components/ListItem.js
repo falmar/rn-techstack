@@ -1,16 +1,32 @@
-import React, {PropTypes} from 'react'
-import {Text, StyleSheet} from 'react-native'
+import React, {Component, PropTypes} from 'react'
+import {View, Text, StyleSheet, TouchableWithoutFeedback} from 'react-native'
+import {connect} from 'react-redux'
+
+import * as actions from '../store/actions/libraries'
 
 import {CardSection} from './common'
 
-const ListItem = ({library}) => {
-  const {titleStyle} = styles
+class ListItem extends Component {
+  render () {
+    const {library, selected, onPress} = this.props
+    const {titleStyle} = styles
+    const {id, title, description} = library
 
-  return (
-    <CardSection>
-      <Text style={titleStyle}>{library.title}</Text>
-    </CardSection>
-  )
+    return (
+      <TouchableWithoutFeedback
+        style={{flex: 1}}
+        onPress={onPress(id)}
+      >
+        <View>
+          <CardSection>
+            <Text style={titleStyle}>{title}</Text>
+          </CardSection>
+          {library.id === selected && <Text>{description}</Text>}
+        </View>
+
+      </TouchableWithoutFeedback>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -21,7 +37,17 @@ const styles = StyleSheet.create({
 })
 
 ListItem.propTypes = {
-  library: PropTypes.object.isRequired
+  library: PropTypes.object.isRequired,
+  selected: PropTypes.number,
+  onPress: PropTypes.func.isRequired
 }
 
-export default ListItem
+const mapStateToProps = ({libraries}) => ({
+  selected: libraries.selected
+})
+
+const mapDispatchToProps = dispatch => ({
+  onPress: libraryId => () => dispatch(actions.selectLibrary(libraryId))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListItem)
