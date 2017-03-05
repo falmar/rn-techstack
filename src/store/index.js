@@ -1,11 +1,18 @@
-import {createStore, combineReducers} from 'redux'
+import {createStore} from 'redux'
 
-import libraries from './reducers/libraries'
+import rootReducer from './reducers'
 
-const reducers = combineReducers({
-  libraries
-})
+export default function configureStore (initialState) {
+  const store = createStore(rootReducer, initialState)
 
-export default (initialState) => {
-  return createStore(reducers, initialState)
+  if (module.hot) {
+    // Enable Webpack hot module replacement for reducers
+    module.hot.accept(() => {
+      const nextRootReducer = require('./reducers').default
+
+      store.replaceReducer(nextRootReducer)
+    })
+  }
+
+  return store
 }

@@ -1,5 +1,6 @@
 const initialState = {
   hydrated: false,
+  selected: 0,
   data: []
 }
 
