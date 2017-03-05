@@ -1,5 +1,11 @@
 import React, {Component, PropTypes} from 'react'
-import {View, Text, StyleSheet, TouchableWithoutFeedback} from 'react-native'
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  LayoutAnimation
+} from 'react-native'
 import {connect} from 'react-redux'
 
 import * as actions from '../store/actions/libraries'
@@ -7,6 +13,11 @@ import * as actions from '../store/actions/libraries'
 import {CardSection} from './common'
 
 class ListItem extends Component {
+  componentWillUpdate () {
+    LayoutAnimation.easeInEaseOut()
+  }
+
+  // render
   renderDescription () {
     const {expanded, library: {description}} = this.props
 

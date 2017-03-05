@@ -5,14 +5,26 @@
  */
 
 import React, { Component } from 'react'
-import {AppRegistry} from 'react-native'
+import {AppRegistry, UIManager, Platform} from 'react-native'
 
 import App from './src/App'
 
 export default class TechStack extends Component {
+  constructor (props) {
+    super(props)
+
+    if (Platform.OS === 'android') {
+      UIManager.setLayoutAnimationEnabledExperimental &&
+      UIManager.setLayoutAnimationEnabledExperimental(true)
+    }
+  }
+
   render () {
     return <App />
   }
 }
+
+UIManager.setLayoutAnimationEnabledExperimental &&
+UIManager.setLayoutAnimationEnabledExperimental(true)
 
 AppRegistry.registerComponent('TechStack', () => TechStack)
